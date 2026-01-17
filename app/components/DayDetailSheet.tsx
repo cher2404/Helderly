@@ -27,9 +27,9 @@ export default function DayDetailSheet({ isOpen, date, onClose, onTaskClick }: D
     year: 'numeric' 
   });
 
-  const handleAddTask = (title: string) => {
+  const handleAddTask = async (title: string) => {
     const dateStr = date.toISOString().split('T')[0];
-    addTask({
+    await addTask({
       title,
       status: 'todo',
       timeOfDay: null,
