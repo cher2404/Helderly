@@ -36,10 +36,10 @@ export default function QuickAddSheet({ isOpen, onClose, defaultDate }: QuickAdd
     }
   }, [isOpen, defaultDate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      addTask({
+      await addTask({
         title: input.trim(),
         status: 'todo',
         timeOfDay: null,
