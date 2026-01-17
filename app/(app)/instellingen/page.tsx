@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSettingsStore } from '../../store/settingsStore';
+import { useSettingsStore, type Theme } from '../../store/settingsStore';
 import { useRouter } from 'next/navigation';
 import { useTaskStore } from '../../store/taskStore';
 import { useFolderStore } from '../../store/folderStore';
