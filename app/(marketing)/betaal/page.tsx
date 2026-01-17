@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Section from '../../components/ui/Section';
@@ -12,7 +12,7 @@ const plans = {
   together: { name: 'Together', price: 19, period: 'per maand', pricePerUser: 'per 5 gebruikers' },
 };
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedPlanParam = searchParams.get('plan') || 'pro';
