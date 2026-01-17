@@ -165,3 +165,19 @@ function CheckoutContent() {
     </>
   );
 }
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <Section className="pt-24 pb-12">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400">Laden...</p>
+          </div>
+        </div>
+      </Section>
+    }>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
