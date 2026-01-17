@@ -208,25 +208,6 @@ export default function AppPreview() {
                 >
                   {views[currentView].content}
                 </div>
-
-                {/* Bottom nav preview */}
-                <div className="fixed bottom-0 left-0 right-0 mt-8 pt-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
-                  <div className="flex items-center justify-around pb-2">
-                    {views.map((view, index) => (
-                      <div
-                        key={index}
-                        className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all ${
-                          index === currentView
-                            ? 'text-[#8C46E0]'
-                            : 'text-gray-400'
-                        }`}
-                      >
-                        <span className="text-xl">{view.icon}</span>
-                        <span className="text-xs font-medium">{view.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
