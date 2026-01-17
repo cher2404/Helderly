@@ -2,7 +2,49 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  
+  /* Nieuwe kleurenpalet */
+  --accent-purple: #8C46E0;
+  --accent-purple-light: #A569F0;
+  --accent-purple-dark: #6B2FC7;
+  --accent-purple-soft: rgba(140, 70, 224, 0.1);
+  
+  --footer-dark: #050025;
+  
+  /* Gradient kleuren - subtiel paars */
+  --gradient-purple: #8C46E0;
+  --gradient-purple-light: #A569F0;
+  --gradient-purple-dark: #6B2FC7;
+  
+  /* Accent kleuren voor status */
+  --color-success: #10B981;
+  --color-success-soft: #D1FAE5;
+  --color-warning: #F59E0B;
+  --color-warning-soft: #FEF3C7;
+  --color-error: #EF4444;
+  --color-error-soft: #FEE2E2;
+  
+  /* Subtiele gradient voor app achtergrond */
+  --bg-gradient-start: rgba(140, 70, 224, 0.03);
+  --bg-gradient-end: rgba(140, 70, 224, 0.05);
+  
+  /* Shadows - verfijnd */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Touch targets minimaal 44px */
+  --touch-target: 44px;
+  
+  /* Spacing scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
 }
 
 @theme inline {
@@ -16,11 +58,203 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --bg-gradient-start: rgba(140, 70, 224, 0.08);
+    --bg-gradient-end: rgba(140, 70, 224, 0.12);
+    
+    /* Dark mode accent kleuren */
+    --color-success-soft: rgba(16, 185, 129, 0.15);
+    --color-warning-soft: rgba(245, 158, 11, 0.15);
+    --color-error-soft: rgba(239, 68, 68, 0.15);
+    
+    /* Dark mode shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus styles */
+*:focus-visible {
+  outline: 2px solid var(--gradient-purple);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Link styling */
+a:not([class*="button"]):not([class*="Button"]) {
+  color: var(--accent-purple);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:not([class*="button"]):not([class*="Button"]):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Better heading styles */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+h1 {
+  line-height: 1.1;
+}
+
+h2 {
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+h3 {
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+/* Better text rendering */
+p, li {
+  letter-spacing: -0.01em;
+  line-height: 1.7;
+}
+
+/* Max width voor leesbaarheid */
+.content-text {
+  max-width: 65ch;
+}
+
+.content-text-wide {
+  max-width: 72ch;
+}
+
+/* Clean app background */
+.app-bg {
+  background: var(--background);
+  min-height: 100vh;
+}
+
+/* Shimmer animation for progress bar */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Verfijnde card styling */
+.card-base {
+  background: var(--background);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.card-base:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(140, 70, 224, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .card-base {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .card-base:hover {
+    border-color: rgba(140, 70, 224, 0.3);
+  }
+}
+
+/* Betere gradient voor marketing backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, 
+    rgba(108, 99, 255, 0.06) 0%, 
+    rgba(56, 189, 248, 0.06) 50%,
+    rgba(108, 99, 255, 0.04) 100%);
+}
+
+/* Subtiele gradient animatie voor headings */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 8s ease infinite;
+}
+
+/* Touch-friendly targets */
+.touch-target {
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+}
+
+/* Safe area padding for iOS (notches, home indicator) */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
 }

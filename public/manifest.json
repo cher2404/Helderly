@@ -1,0 +1,41 @@
+{
+  "name": "Helderly - Rustige planning app",
+  "short_name": "Helderly",
+  "description": "Focus op wat belangrijk is. Een rustige, moderne planning app.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8C46E0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Vandaag",
+      "short_name": "Vandaag",
+      "description": "Ga naar de vandaag pagina",
+      "url": "/today",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Focus",
+      "short_name": "Focus",
+      "description": "Start focus mode",
+      "url": "/focus",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
