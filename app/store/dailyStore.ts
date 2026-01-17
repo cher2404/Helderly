@@ -155,7 +155,7 @@ export const useDailyStore = create<DailyStore>()(
       
       hasCompletedQuestion: () => {
         const state = get().getCurrentDailyState();
-        return state?.dailyQuestion !== null && state.dailyQuestion.trim() !== '';
+        return state !== null && state.dailyQuestion !== null && state.dailyQuestion.trim() !== '';
       },
       
       hasSelectedFocusTasks: () => {
