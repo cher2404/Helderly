@@ -1,25 +1,52 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Section from '../../components/ui/Section';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
+import { useAuthStore } from '../../store/authStore';
 
 export default function SignupPage() {
   const router = useRouter();
+  const { signUp, isLoading, user, initialize } = useAuthStore();
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    initialize();
+    
+    // Redirect if already logged in
+    if (user) {
+      router.push('/today');
+    }
+  }, [user, router, initialize]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement actual auth
-    // For now, just redirect to /today
+    setError(null);
+    setSuccess(false);
+    
+    if (formData.password.length < 8) {
+      setError('Wachtwoord moet minimaal 8 karakters lang zijn.');
+      return;
+    }
+    
+    const { error: signUpError } = await signUp(formData.email, formData.password, formData.name);
+    
+    if (signUpError) {
+      setError(signUpError.message || 'Account aanmaken mislukt. Probeer het opnieuw.');
+      return;
+    }
+    
+    setSuccess(true);
+    
+    // Redirect after successful signup
     setTimeout(() => {
       router.push('/today');
-    }, 500);
+    }, 1000);
   };
 
   return (
@@ -92,12 +119,26 @@ export default function SignupPage() {
                 </p>
               </div>
 
+              {error && (
+                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900">
+                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
+
+              {success && (
+                <div className="p-3 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900">
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Account aangemaakt! Je wordt doorgestuurd...
+                  </p>
+                </div>
+              )}
+
               <Button
                 type="submit"
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isLoading}
+                disabled={isLoading || success}
               >
                 {isLoading ? 'Account aanmaken...' : 'Account aanmaken'}
               </Button>

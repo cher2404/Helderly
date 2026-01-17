@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/ThemeProvider";
+import AuthProvider from "./components/AuthProvider";
 import PWARegister from "./components/PWARegister";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
@@ -53,7 +54,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
           <PWARegister />
           <PWAInstallPrompt />
         </ThemeProvider>

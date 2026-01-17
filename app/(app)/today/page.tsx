@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTaskStore } from '../../store/taskStore';
+import { useAuthStore } from '../../store/authStore';
 import QuickAdd from '../../components/QuickAdd';
 import TaskList from '../../components/TaskList';
 import FocusCTA from '../../components/FocusCTA';
@@ -13,7 +14,8 @@ import DailyStart from '../../components/DailyStart';
 import { useDailyStore } from '../../store/dailyStore';
 
 export default function TodayPage() {
-  const { tasks, addTask, getTasksForToday, getFocusTasks, isLoading } = useTaskStore();
+  const { tasks, addTask, getTasksForToday, getFocusTasks, isLoading, loadTasks, isInitialized } = useTaskStore();
+  const { user } = useAuthStore();
   const { initDailyState, hasCompletedQuestion, hasSelectedFocusTasks, getCurrentDailyState } = useDailyStore();
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -23,6 +25,11 @@ export default function TodayPage() {
   // Prevent hydration mismatch by only rendering client-side
   useEffect(() => {
     setMounted(true);
+    
+    // Load tasks if user is logged in and tasks not yet loaded
+    if (user && !isInitialized && !isLoading) {
+      loadTasks();
+    }
     // Check if onboarding should be shown
     const hasCompletedOnboarding = localStorage.getItem('helderly-onboarding-completed');
     if (!hasCompletedOnboarding) {

@@ -1,25 +1,41 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Section from '../../components/ui/Section';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
+import { useAuthStore } from '../../store/authStore';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { signIn, isLoading, user, initialize } = useAuthStore();
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    initialize();
+    
+    // Redirect if already logged in
+    if (user) {
+      router.push('/today');
+    }
+  }, [user, router, initialize]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement actual auth
-    // For now, just redirect to /today
-    setTimeout(() => {
-      router.push('/today');
-    }, 500);
+    setError(null);
+    
+    const { error: signInError } = await signIn(formData.email, formData.password);
+    
+    if (signInError) {
+      setError(signInError.message || 'Inloggen mislukt. Controleer je email en wachtwoord.');
+      return;
+    }
+    
+    // Redirect after successful login
+    router.push('/today');
   };
 
   return (
@@ -78,6 +94,12 @@ export default function LoginPage() {
                   Wachtwoord vergeten?
                 </Link>
               </div>
+
+              {error && (
+                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900">
+                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
 
               <Button
                 type="submit"

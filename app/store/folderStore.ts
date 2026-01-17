@@ -1,22 +1,24 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { Folder, FolderColor } from '../types';
-import { dummyFolders } from '../data/dummy';
+import { supabase } from '../../lib/supabase';
+import { useAuthStore } from './authStore';
 
 const FREE_FOLDER_LIMIT = 3;
 
 interface FolderStore {
   folders: Folder[];
   isLoading: boolean;
-  userPlan: 'free' | 'pro' | 'together'; // TODO: haal uit user context
+  isInitialized: boolean;
+  userPlan: 'free' | 'pro' | 'together';
   
   // Actions
-  updateUserPlan: (plan: 'free' | 'pro' | 'together') => void;
-  addFolder: (name: string, color: FolderColor, teamId?: string) => boolean;
-  updateFolder: (id: string, updates: Partial<Folder>) => void;
-  deleteFolder: (id: string) => void;
-  shareFolder: (id: string, teamId: string) => void;
-  unshareFolder: (id: string) => void;
+  loadFolders: () => Promise<void>;
+  updateUserPlan: (plan: 'free' | 'pro' | 'together') => Promise<void>;
+  addFolder: (name: string, color: FolderColor, teamId?: string) => Promise<boolean>;
+  updateFolder: (id: string, updates: Partial<Folder>) => Promise<void>;
+  deleteFolder: (id: string) => Promise<void>;
+  shareFolder: (id: string, teamId: string) => Promise<void>;
+  unshareFolder: (id: string) => Promise<void>;
   
   // Helpers
   getFolderById: (id: string) => Folder | undefined;
@@ -27,74 +29,247 @@ interface FolderStore {
   getFolderCount: () => number;
 }
 
-export const useFolderStore = create<FolderStore>()(
-  persist(
-    (set, get) => ({
-      folders: dummyFolders,
-      isLoading: false,
-      userPlan: 'free', // TODO: haal uit auth/user context
+// Helper to convert database row to Folder
+const rowToFolder = (row: any): Folder => {
+  return {
+    id: row.id,
+    name: row.name,
+    color: row.color as FolderColor,
+    isShared: row.is_shared || false,
+    teamId: row.team_id || undefined,
+    createdAt: new Date(row.created_at).toISOString(),
+    updatedAt: new Date(row.updated_at).toISOString(),
+  };
+};
 
-      updateUserPlan: (plan) => {
-        set({ userPlan: plan });
-      },
+export const useFolderStore = create<FolderStore>((set, get) => ({
+  folders: [],
+  isLoading: false,
+  isInitialized: false,
+  userPlan: 'free',
 
-      addFolder: (name, color, teamId) => {
-        if (!get().canAddFolder()) {
-          return false;
-        }
-        
-        const newFolder: Folder = {
-          id: `folder-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+  loadFolders: async () => {
+    const { user } = useAuthStore.getState();
+    if (!user) {
+      set({ folders: [], isInitialized: true });
+      return;
+    }
+
+    set({ isLoading: true });
+    
+    try {
+      // Load folders (own + shared)
+      const { data, error } = await supabase
+        .from('folders')
+        .select('*')
+        .or(`user_id.eq.${user.id},is_shared.eq.true`)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const folders = data ? data.map(rowToFolder) : [];
+      
+      // Load user profile for plan
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', user.id)
+        .single();
+
+      set({
+        folders,
+        userPlan: (profile?.plan as 'free' | 'pro' | 'together') || 'free',
+        isLoading: false,
+        isInitialized: true,
+      });
+    } catch (error) {
+      console.error('Error loading folders:', error);
+      set({ isLoading: false, isInitialized: true });
+    }
+  },
+
+  updateUserPlan: async (plan) => {
+    const { user } = useAuthStore.getState();
+    if (!user) return;
+
+    try {
+      await supabase
+        .from('profiles')
+        .update({ plan })
+        .eq('id', user.id);
+      
+      set({ userPlan: plan });
+    } catch (error) {
+      console.error('Error updating plan:', error);
+    }
+  },
+
+  addFolder: async (name, color, teamId) => {
+    const { user } = useAuthStore.getState();
+    if (!user) {
+      console.error('Cannot add folder: user not authenticated');
+      return false;
+    }
+
+    if (!get().canAddFolder()) {
+      return false;
+    }
+
+    set({ isLoading: true });
+    
+    try {
+      const { data, error } = await supabase
+        .from('folders')
+        .insert({
+          user_id: user.id,
           name,
           color,
-          isShared: !!teamId,
-          teamId: teamId,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        
-        set((state) => ({
-          folders: [...state.folders, newFolder],
-        }));
-        
-        return true;
-      },
+          is_shared: !!teamId,
+          team_id: teamId || null,
+        })
+        .select()
+        .single();
 
-      shareFolder: (id, teamId) => {
-        set((state) => ({
-          folders: state.folders.map((folder) =>
-            folder.id === id
-              ? { ...folder, isShared: true, teamId, updatedAt: new Date().toISOString() }
-              : folder
-          ),
-        }));
-      },
+      if (error) throw error;
 
-      unshareFolder: (id) => {
-        set((state) => ({
-          folders: state.folders.map((folder) =>
-            folder.id === id
-              ? { ...folder, isShared: false, teamId: undefined, updatedAt: new Date().toISOString() }
-              : folder
-          ),
-        }));
-      },
+      const newFolder = rowToFolder(data);
+      
+      set((state) => ({
+        folders: [newFolder, ...state.folders],
+        isLoading: false,
+      }));
+      
+      return true;
+    } catch (error) {
+      console.error('Error adding folder:', error);
+      set({ isLoading: false });
+      return false;
+    }
+  },
 
-      updateFolder: (id, updates) => {
-        set((state) => ({
-          folders: state.folders.map((folder) =>
-            folder.id === id
-              ? { ...folder, ...updates, updatedAt: new Date().toISOString() }
-              : folder
-          ),
-        }));
-      },
+  shareFolder: async (id, teamId) => {
+    const { user } = useAuthStore.getState();
+    if (!user) return;
 
-      deleteFolder: (id) => {
-        set((state) => ({
-          folders: state.folders.filter((folder) => folder.id !== id),
-        }));
-      },
+    set({ isLoading: true });
+    
+    try {
+      const { data, error } = await supabase
+        .from('folders')
+        .update({ is_shared: true, team_id: teamId })
+        .eq('id', id)
+        .eq('user_id', user.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      const updatedFolder = rowToFolder(data);
+      
+      set((state) => ({
+        folders: state.folders.map((folder) =>
+          folder.id === id ? updatedFolder : folder
+        ),
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error('Error sharing folder:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  unshareFolder: async (id) => {
+    const { user } = useAuthStore.getState();
+    if (!user) return;
+
+    set({ isLoading: true });
+    
+    try {
+      const { data, error } = await supabase
+        .from('folders')
+        .update({ is_shared: false, team_id: null })
+        .eq('id', id)
+        .eq('user_id', user.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      const updatedFolder = rowToFolder(data);
+      
+      set((state) => ({
+        folders: state.folders.map((folder) =>
+          folder.id === id ? updatedFolder : folder
+        ),
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error('Error unsharing folder:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  updateFolder: async (id, updates) => {
+    const { user } = useAuthStore.getState();
+    if (!user) return;
+
+    set({ isLoading: true });
+    
+    try {
+      const row: any = {};
+      if (updates.name !== undefined) row.name = updates.name;
+      if (updates.color !== undefined) row.color = updates.color;
+      if (updates.isShared !== undefined) row.is_shared = updates.isShared;
+      if (updates.teamId !== undefined) row.team_id = updates.teamId || null;
+
+      const { data, error } = await supabase
+        .from('folders')
+        .update(row)
+        .eq('id', id)
+        .eq('user_id', user.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      const updatedFolder = rowToFolder(data);
+      
+      set((state) => ({
+        folders: state.folders.map((folder) =>
+          folder.id === id ? updatedFolder : folder
+        ),
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error('Error updating folder:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  deleteFolder: async (id) => {
+    const { user } = useAuthStore.getState();
+    if (!user) return;
+
+    set({ isLoading: true });
+    
+    try {
+      const { error } = await supabase
+        .from('folders')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      set((state) => ({
+        folders: state.folders.filter((folder) => folder.id !== id),
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error('Error deleting folder:', error);
+      set({ isLoading: false });
+    }
+  },
 
       getFolderById: (id) => {
         return get().folders.find((folder) => folder.id === id);
@@ -129,9 +304,4 @@ export const useFolderStore = create<FolderStore>()(
       getMyFolders: () => {
         return get().folders.filter((f) => !f.isShared);
       },
-    }),
-    {
-      name: 'helderly-folders-storage',
-    }
-  )
-);
+}));
