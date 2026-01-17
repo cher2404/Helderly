@@ -8,9 +8,9 @@ import FadeIn from '../components/ui/FadeIn';
 import AppPreview from '../components/marketing/AppPreview';
 
 export const metadata: Metadata = {
-  title: 'Helderly - Rustige planning app die je helpt focussen',
+  title: 'Helderly - Begin je dag met helderheid',
   description:
-    'Focus op wat belangrijk is. Helderly is een rustige, moderne planning app zonder ruis. Plan je dag, blijf gefocust, en krijg meer gedaan.',
+    'Plan wat vandaag telt. Focus op één taak. Rond af met rust. Geen ruis, geen gedoe. Start gratis.',
 };
 
 export default function HomePage() {
@@ -20,22 +20,24 @@ export default function HomePage() {
       <Section className="pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.1] tracking-tight bg-gradient-to-r from-[#6C63FF] via-[#38BDF8] to-[#6C63FF] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-            Rustige planning voor mensen die focussen
+            Begin je dag met helderheid
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed max-w-2xl mx-auto content-text-wide">
-            Geen ruis, geen stress.
+            Plan wat vandaag telt. Focus op één taak. Rond af met rust.
             <br />
-            Alleen helderheid over wat er echt toe doet
-            vandaag.
+            <span className="text-lg md:text-xl lg:text-2xl">Geen ruis, geen gedoe.</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/signup" variant="primary" size="lg">
+            <Button href="/signup" variant="primary" size="lg" className="font-bold">
               Start gratis
             </Button>
             <Button href="/hoe-werkt-het" variant="secondary" size="lg">
               Hoe werkt het
             </Button>
           </div>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mt-6">
+            Geen creditcard nodig. Start direct.
+          </p>
         </div>
       </Section>
 
@@ -51,7 +53,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Vandaag</h3>
             <p className="text-gray-700 dark:text-gray-300">
-              Begin met duidelijkheid. Zie in één oogopslag wat er vandaag op je agenda staat.
+              Zie in één oogopslag wat er vandaag op je agenda staat.
             </p>
           </Card>
 
@@ -64,7 +66,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Focus</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Werk aan één taak tegelijk. Focus mode helpt je om afleiding buiten te houden.
+              Werk aan één taak tegelijk, zonder afleiding.
             </p>
           </Card>
 
@@ -76,7 +78,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Kalender</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Plan vooruit met week- en maandoverzicht. Altijd duidelijk wat er komen gaat.
+              Plan vooruit met overzicht. Altijd duidelijk wat er komen gaat.
             </p>
           </Card>
 
@@ -88,7 +90,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Mappen</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Organiseer taken in mappen. Projecten, contexten, of gewoon hoe het jou uitkomt.
+              Organiseer taken zoals het jou uitkomt. Projecten, contexten, wat je wilt.
             </p>
           </Card>
 
@@ -101,7 +103,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-[#8C46E0] dark:group-hover:text-purple-400 transition-colors">Together</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Werk samen met je team. Deel mappen, wijs taken toe en houd overzicht over projecten.
+                Werk samen zonder gedoe. Deel mappen en houd overzicht, zonder complexiteit.
               </p>
             </Card>
           </Link>
@@ -117,7 +119,7 @@ export default function HomePage() {
               Zie hoe Helderly werkt
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Bekijk de app in actie. Een rustige, moderne interface die je helpt focussen op wat belangrijk is.
+              Rustig, overzichtelijk, en zonder ruis. Zie hoe je vandaag structureert en focust op wat telt.
             </p>
           </div>
           <AppPreview />
@@ -130,27 +132,27 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
             Voor wie is Helderly?
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Helderly is gemaakt voor mensen die genoeg hebben van ingewikkelde tools vol met features die ze nooit gebruiken. 
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
+            Voor mensen die genoeg hebben van tools vol features die ze nooit gebruiken. 
             Als je zoekt naar rust, duidelijkheid en een app die gewoon werkt, dan ben je hier op de goede plek.
           </p>
           <div className="grid md:grid-cols-3 gap-6 text-left">
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Professionals</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Die hun dag willen structureren zonder overdreven complexiteit.
+                Overzicht zonder ruis. Structuur je dag zonder gedoe.
               </p>
             </Card>
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Ondernemers</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Die een tool willen die meegroeit zonder onderweg rommelig te worden.
+                Structuur zonder complexiteit. Een tool die meegroeit zonder rommelig te worden.
               </p>
             </Card>
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Teams</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Kleine teams die samen willen werken aan projecten zonder complexe tools.
+                Samen plannen zonder complexe tools. Eenvoudig en overzichtelijk.
               </p>
             </Card>
           </div>
@@ -162,41 +164,44 @@ export default function HomePage() {
         <FadeIn>
           <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Hoe het werkt
+            Zo werkt het
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div>
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-white">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Voeg taken toe</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Voeg een taak toe</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Begin met een snelle taak. Voeg later context toe zoals dagdeel of datum.
+                Typ wat je moet doen. Kies later een dagdeel of datum, of laat het staan.
               </p>
             </div>
             <div>
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-white">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Focus op vandaag</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Kies wat vandaag telt</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Start focus mode voor één taak tegelijk. Geen ruis, alleen wat er nu toe doet.
+                Selecteer maximaal 3 taken waar je vandaag aan werkt. De rest verdwijnt naar de achtergrond.
               </p>
             </div>
             <div>
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-white">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Blijf gefocust</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Rond af met focus</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Werk aan wat belangrijk is. Helderly helpt je om niet afgeleid te raken.
+                Werk aan één taak tegelijk. Geen afleiding, alleen wat er nu toe doet.
               </p>
             </div>
           </div>
-            <div className="mt-12">
-              <Button href="/signup" variant="primary" size="lg">
-                Probeer het nu gratis
+            <div>
+              <Button href="/signup" variant="primary" size="lg" className="font-bold">
+                Begin vandaag
               </Button>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mt-4">
+                Gratis account aanmaken. Geen creditcard nodig.
+              </p>
             </div>
           </div>
         </FadeIn>
@@ -209,9 +214,9 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               Jouw data, jouw controle
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              We verkopen geen data. We tonen geen advertenties. We bouwen een tool die je vertrouwt, 
-              niet een platform dat je als product ziet.
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+              We verkopen geen data. We tonen geen advertenties. 
+              We bouwen een tool die je vertrouwt, niet een platform dat je als product ziet.
             </p>
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
@@ -258,21 +263,21 @@ export default function HomePage() {
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Is Helderly gratis?</h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Je kunt Helderly gratis gebruiken met maximaal 3 mappen. Voor meer features is er een Pro plan beschikbaar. 
-                Bekijk <Link href="/prijzen" className="text-[#6C63FF] hover:underline">onze prijzen</Link> voor details.
+                Ja, je kunt Helderly gratis gebruiken met maximaal 3 mappen. Dat is genoeg om te starten en te proberen. 
+                Wil je meer? Dan kun je upgraden naar Pro of Together. <Link href="/prijzen" className="text-[#6C63FF] hover:underline font-medium">Bekijk prijzen</Link>
               </p>
             </Card>
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Werkt Helderly offline?</h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Helderly werkt primair online om je data veilig en gesynchroniseerd te houden. 
-                We bouwen aan betere offline ondersteuning.
+                Helderly werkt het beste online, zodat je data veilig en gesynchroniseerd blijft. 
+                Je kunt de app installeren op je telefoon voor een app-achtige ervaring. Betere offline ondersteuning komt later.
               </p>
             </Card>
             <Card>
               <h3 className="font-semibold text-foreground mb-2">Kan ik mijn data exporteren?</h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Ja, je kunt altijd je data exporteren. Je bent de eigenaar van je data, niet wij.
+                Ja, altijd. Je bent de eigenaar van je data, niet wij. Je kunt op elk moment alles exporteren via je instellingen.
               </p>
             </Card>
           </div>
@@ -294,7 +299,7 @@ export default function HomePage() {
             <div className="grid md:grid-cols-3 gap-6">
               <Card>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm">
-                  "Eindelijk een planning app die niet overweldigend is. Helderly helpt me om gefocust te blijven zonder afleiding."
+                  "Eindelijk een planning app die niet overweldigend is. Ik zie alleen wat ik nodig heb, zonder afleiding."
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center text-white font-bold">
@@ -308,7 +313,7 @@ export default function HomePage() {
               </Card>
               <Card>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm">
-                  "De focus mode is een gamechanger. Ik werk nu veel productiever omdat ik niet constant afgeleid word door lange takenlijsten."
+                  "De focus mode helpt me écht gefocust te blijven. Ik word niet meer afgeleid door een lange takenlijst."
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center text-white font-bold">
@@ -322,7 +327,7 @@ export default function HomePage() {
               </Card>
               <Card>
                 <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm">
-                  "Geen onnodige features, gewoon wat werkt. Perfect voor iemand die geen tijd heeft om complexe tools te leren."
+                  "Gewoon wat werkt, geen onnodige features. Perfect als je geen tijd hebt om complexe tools te leren."
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#38BDF8] flex items-center justify-center text-white font-bold">
@@ -347,11 +352,14 @@ export default function HomePage() {
               Klaar om te beginnen?
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              Start vandaag nog met een rustigere, helderdere planning. Geen creditcard nodig.
+              Start vandaag nog met een rustigere, helderdere planning.
             </p>
-            <Button href="/signup" variant="primary" size="lg">
-              Maak gratis account aan
+            <Button href="/signup" variant="primary" size="lg" className="font-bold mb-4">
+              Start gratis
             </Button>
+            <p className="text-sm text-gray-500 dark:text-gray-500">
+              Geen creditcard nodig. Je kunt altijd later upgraden.
+            </p>
           </div>
         </FadeIn>
       </Section>

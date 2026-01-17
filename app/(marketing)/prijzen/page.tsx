@@ -5,7 +5,7 @@ import Button from '../../components/ui/Button';
 
 export const metadata: Metadata = {
   title: 'Prijzen - Helderly',
-  description: 'Kies het plan dat bij je past. Start gratis of upgrade naar Pro voor meer features.',
+  description: 'Start gratis. Upgrade wanneer je meer nodig hebt. Eenvoudige, eerlijke prijzen zonder verborgen kosten.',
 };
 
 export default function PricingPage() {
@@ -13,7 +13,7 @@ export default function PricingPage() {
     {
       name: 'Free',
       price: 'Gratis',
-      description: 'Perfect om Helderly uit te proberen',
+      description: 'Ideal om te starten en te proberen',
       features: [
         'Onbeperkt taken',
         'Dagoverzicht',
@@ -30,7 +30,7 @@ export default function PricingPage() {
       name: 'Pro',
       price: '€9',
       period: '/maand',
-      description: 'Voor professionals die meer nodig hebben',
+      description: 'Voor professionals die meer structuur nodig hebben',
       popular: true,
       features: [
         'Alles uit Free',
@@ -51,7 +51,7 @@ export default function PricingPage() {
       price: '€19',
       period: '/maand',
       pricePerUser: 'per 5 gebruikers',
-      description: 'Voor teams die samenwerken',
+      description: 'Voor teams die samen plannen zonder gedoe',
       features: [
         'Alles uit Pro',
         'Onbeperkt teamleden',
@@ -75,8 +75,11 @@ export default function PricingPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Eenvoudige, eerlijke prijzen
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Start gratis. Upgrade wanneer je meer nodig hebt. Geen verborgen kosten.
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-2">
+            Start gratis. Upgrade wanneer je meer nodig hebt.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">
+            Geen verborgen kosten. Geen lange contracten. Je kunt altijd upgraden of downgraden.
           </p>
         </div>
       </Section>
@@ -167,7 +170,7 @@ export default function PricingPage() {
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Pro is voor individuele professionals. Together voegt samenwerking toe: gedeelde mappen, 
-                teamleden uitnodigen, en taken toewijzen. Perfect voor kleine teams die samen willen plannen.
+                teamleden uitnodigen en taken toewijzen. Perfect voor kleine teams die samen willen plannen zonder gedoe.
               </p>
             </Card>
             <Card>
@@ -175,8 +178,7 @@ export default function PricingPage() {
                 Kan ik upgraden of downgraden?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Ja, je kunt op elk moment upgraden of downgraden. Wijzigingen gaan direct in, 
-                en je betaalt proportioneel voor de resterende tijd.
+                Ja, op elk moment. Wijzigingen gaan direct in. Je betaalt alleen voor wat je gebruikt, proportioneel voor de resterende tijd.
               </p>
             </Card>
             <Card>
@@ -185,7 +187,7 @@ export default function PricingPage() {
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Je account wordt automatisch teruggebracht naar Free. Je kunt altijd je data exporteren 
-                voordat je je account opzegt.
+                voordat je je account opzegt. Geen verborgen kosten, geen gedoe.
               </p>
             </Card>
             <Card>
@@ -193,8 +195,8 @@ export default function PricingPage() {
                 Bieden jullie kortingen voor studenten?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Op dit moment niet, maar we overwegen dit voor de toekomst. 
-                Stuur ons een bericht via <a href="/contact" className="text-[#8C46E0] hover:underline">contact</a> als je hier interesse in hebt.
+                Op dit moment niet. We overwegen dit voor de toekomst. 
+                Neem <a href="/contact" className="text-[#8C46E0] hover:underline font-medium">contact</a> met ons op als je hier interesse in hebt.
               </p>
             </Card>
           </div>
