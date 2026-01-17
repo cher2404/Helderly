@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
+import type { Database } from '../../lib/database.types';
+
+type ProfileInsert = Database['public']['Tables']['profiles']['Insert'];
 
 interface AuthStore {
   user: User | null;
@@ -102,11 +105,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (authData.user) {
         // Create profile
-        const profileData = {
+        const profileData: ProfileInsert = {
           id: authData.user.id,
           email: authData.user.email ?? email,
           full_name: name,
-          plan: 'free' as 'free' | 'pro' | 'together',
+          plan: 'free',
         };
         const { error: profileError } = await supabase
           .from('profiles')
