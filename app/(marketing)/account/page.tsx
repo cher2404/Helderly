@@ -129,11 +129,11 @@ export default function AccountPage() {
             <Card>
               <h2 className="text-xl font-semibold text-foreground mb-4">Facturen</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {userPlan === 'Free'
+                {userPlan === 'free'
                   ? 'Geen facturen beschikbaar voor gratis accounts.'
                   : 'Download je facturen via de onderstaande link.'}
               </p>
-              {userPlan !== 'Free' && (
+              {userPlan !== 'free' && (
                 <Button variant="secondary" size="md">
                   Bekijk facturen
                 </Button>
