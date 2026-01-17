@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../../store/authStore';
-import BottomNav from '../../components/BottomNav';
+import { useAuthStore } from '../store/authStore';
+import BottomNav from '../components/BottomNav';
 
 export default function AppLayout({
   children,
