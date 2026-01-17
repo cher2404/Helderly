@@ -21,32 +21,32 @@ const faqs = [
   {
     category: 'aan-de-slag',
     question: 'Hoe begin ik met Helderly?',
-    answer: 'Maak een gratis account aan en voeg je eerste taak toe. Begin met de "Vandaag" pagina om een overzicht te krijgen van je taken voor vandaag.',
+    answer: 'Maak een gratis account aan en voeg je eerste taak toe. Begin met de "Vandaag" pagina. Je kunt altijd later meer toevoegen.',
   },
   {
     category: 'aan-de-slag',
     question: 'Kan ik Helderly op meerdere apparaten gebruiken?',
-    answer: 'Ja, Helderly werkt op je telefoon, tablet en computer. Je data synchroniseert automatisch tussen al je apparaten.',
+    answer: 'Ja, werkt op je telefoon, tablet en computer. Je data synchroniseert automatisch. Start op één apparaat en ga verder op een ander.',
   },
   {
     category: 'account',
     question: 'Hoe kan ik mijn account verwijderen?',
-    answer: 'Ga naar je account instellingen en kies "Account verwijderen". Je kunt eerst je data exporteren voordat je je account opzegt.',
+    answer: 'Ga naar je account instellingen en kies "Account verwijderen". Je kunt eerst je data exporteren. Daarna wordt je account permanent verwijderd.',
   },
   {
     category: 'account',
     question: 'Kan ik van plan veranderen?',
-    answer: 'Ja, je kunt op elk moment upgraden of downgraden vanuit je account instellingen. Wijzigingen gaan direct in.',
+    answer: 'Ja, op elk moment. Ga naar je account instellingen om te upgraden of downgraden. Wijzigingen gaan direct in, je betaalt alleen voor wat je gebruikt.',
   },
   {
     category: 'taken',
     question: 'Hoe voeg ik een taak toe?',
-    answer: 'Gebruik de centrale + knop in de navigatie of het invoerveld op de Vandaag pagina. Klik op een taak om details toe te voegen zoals notities, dagdeel of datum.',
+    answer: 'Gebruik de centrale + knop in de navigatie of het invoerveld op de Vandaag pagina. Klik op een taak om later details toe te voegen, zoals notities of een datum.',
   },
   {
     category: 'taken',
     question: 'Wat is Focus Mode?',
-    answer: 'Focus Mode toont één taak tegelijk, groot en rustig. Perfect om gefocust te blijven zonder afleiding van andere taken.',
+    answer: 'Focus Mode toont één taak tegelijk, groot en rustig. Kies maximaal 3 taken voor vandaag, werk ze een voor een af. Geen afleiding, alleen wat er nu toe doet.',
   },
   {
     category: 'taken',
@@ -76,12 +76,12 @@ const faqs = [
   {
     category: 'privacy',
     question: 'Wat gebeurt er met mijn data?',
-    answer: 'Je data is van jou. We verkopen geen data, we tonen geen advertenties, en je kunt altijd je data exporteren.',
+    answer: 'Je data is van jou. We verkopen geen data, we tonen geen advertenties, en je kunt altijd alles exporteren. Je bent de eigenaar, niet wij.',
   },
   {
     category: 'privacy',
     question: 'Waar wordt mijn data opgeslagen?',
-    answer: 'Je data wordt veilig opgeslagen met betrouwbare leveranciers. We gebruiken versleuteling en volgen best practices voor data beveiliging.',
+    answer: 'Je data wordt veilig opgeslagen bij betrouwbare leveranciers. Alles is versleuteld en we volgen best practices voor beveiliging. Je kunt altijd je data exporteren.',
   },
 ];
 
@@ -107,7 +107,7 @@ export default function SupportPage() {
               Support
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-              Vind snel antwoorden op je vragen
+              Vind snel antwoorden op je vragen, of stuur ons een bericht.
             </p>
 
             {/* Search */}
@@ -180,7 +180,8 @@ export default function SupportPage() {
               Kun je je vraag niet vinden?
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              We helpen je graag verder. Stuur ons een bericht en we reageren meestal binnen 24 uur.
+              We helpen je graag verder. Stuur ons een bericht en we reageren meestal binnen 24 uur. 
+              Geen gedoe, gewoon hulp wanneer je het nodig hebt.
             </p>
             <a
               href="/contact"
