@@ -7,12 +7,14 @@ export const dummyFolders: Folder[] = [
     name: 'Werk',
     color: 'blue',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   {
     id: 'folder-2',
     name: 'Persoonlijk',
     color: 'purple',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 ];
 
