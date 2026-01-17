@@ -69,10 +69,10 @@ export default function FocusPage() {
     );
   }
 
-  const handleDone = () => {
+  const handleDone = async () => {
     if (!currentTask) return;
     
-    toggleTaskStatus(currentTask.id);
+    await toggleTaskStatus(currentTask.id);
     addCompletedTask(currentTask.id);
     
     // When task is marked done, it's removed from focusTasks
@@ -87,7 +87,7 @@ export default function FocusPage() {
     }
   };
 
-  const handleLaterToday = () => {
+  const handleLaterToday = async () => {
     if (!currentTask) return;
     
     const now = new Date();
@@ -97,7 +97,7 @@ export default function FocusPage() {
       ? new Date(now.getTime() + 24 * 60 * 60 * 1000)
       : now;
 
-    updateTask(currentTask.id, {
+    await updateTask(currentTask.id, {
       dueDate: targetDate.toISOString(),
       timeOfDay: 'evening',
     });
@@ -106,14 +106,14 @@ export default function FocusPage() {
     // The useEffect will handle if we need to adjust or redirect
   };
 
-  const handleTomorrow = () => {
+  const handleTomorrow = async () => {
     if (!currentTask) return;
     
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(9, 0, 0, 0); // 09:00 tomorrow
 
-    updateTask(currentTask.id, {
+    await updateTask(currentTask.id, {
       dueDate: tomorrow.toISOString(),
       timeOfDay: 'morning',
     });

@@ -56,7 +56,7 @@ export default function TaskEditPanel({ taskId, isOpen, onClose }: TaskEditPanel
 
   if (!isOpen || !task) return null;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim()) return;
 
     const recurrence: Recurrence | undefined = recurrenceType
@@ -67,7 +67,7 @@ export default function TaskEditPanel({ taskId, isOpen, onClose }: TaskEditPanel
         }
       : undefined;
 
-    updateTask(task.id, {
+    await updateTask(task.id, {
       title: title.trim(),
       description: description.trim() || undefined,
       timeOfDay,
@@ -79,9 +79,9 @@ export default function TaskEditPanel({ taskId, isOpen, onClose }: TaskEditPanel
     onClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirm('Weet je zeker dat je deze taak wilt verwijderen?')) {
-      deleteTask(task.id);
+      await deleteTask(task.id);
       onClose();
     }
   };

@@ -37,9 +37,10 @@ export default function MappenPage() {
     return allTasks.filter((task) => task.folderId === folderId).length;
   };
 
-  const handleCreateFolder = () => {
+  const handleCreateFolder = async () => {
     if (!folderName.trim()) return;
-    if (addFolder(folderName.trim(), selectedColor)) {
+    const success = await addFolder(folderName.trim(), selectedColor);
+    if (success) {
       setFolderName('');
       setSelectedColor('blue');
       setIsCreateModalOpen(false);
@@ -54,9 +55,9 @@ export default function MappenPage() {
     setSelectedColor(folder.color);
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (!editingFolder || !folderName.trim()) return;
-    updateFolder(editingFolder.id, {
+    await updateFolder(editingFolder.id, {
       name: folderName.trim(),
       color: selectedColor,
     });
@@ -65,14 +66,14 @@ export default function MappenPage() {
     setSelectedColor('blue');
   };
 
-  const handleDeleteFolder = (folder: Folder) => {
+  const handleDeleteFolder = async (folder: Folder) => {
     const taskCount = getTaskCountForFolder(folder.id);
     const message = taskCount > 0
       ? `Weet je zeker dat je "${folder.name}" wilt verwijderen? De ${taskCount} ${taskCount === 1 ? 'taak' : 'taken'} in deze map worden niet verwijderd, maar blijven zonder map.`
       : `Weet je zeker dat je "${folder.name}" wilt verwijderen?`;
     
     if (confirm(message)) {
-      deleteFolder(folder.id);
+      await deleteFolder(folder.id);
     }
   };
 

@@ -69,8 +69,8 @@ export default function TodayPage() {
     (task) => !selectedFocusTaskIds.includes(task.id) && task.status !== 'done'
   );
 
-  const handleAddTask = (title: string) => {
-    addTask({
+  const handleAddTask = async (title: string) => {
+    await addTask({
       title,
       status: 'todo',
       timeOfDay: null,

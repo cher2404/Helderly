@@ -31,9 +31,9 @@ export default function TaskItem({ task, onTaskClick }: TaskItemProps) {
   const folder = task.folderId ? getFolderById(task.folderId) : null;
   const folderColor = folder ? FOLDER_COLORS[folder.color] : null;
 
-  const handleCheckboxClick = (e: React.MouseEvent) => {
+  const handleCheckboxClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleTaskStatus(task.id);
+    await toggleTaskStatus(task.id);
   };
 
   const handleContentClick = () => {
