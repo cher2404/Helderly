@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Helderly
 
-## Getting Started
+Rustige planning voor mensen die focussen. Geen ruis, geen stress. Alleen helderheid over wat er echt toe doet vandaag.
 
-First, run the development server:
+## 🚀 Features
+
+- **Vandaag** - Duidelijk overzicht van je dag
+- **Focus Mode** - Werk aan één taak tegelijk
+- **Kalender** - Plan vooruit met week- en maandoverzicht
+- **Mappen** - Organiseer taken in projecten
+- **Together** - Samenwerken met je team
+- **PWA** - Installeer als app, werkt offline
+- **Daily Ritual** - Begin elke dag met focus
+
+## 🛠️ Tech Stack
+
+- **Next.js 16** - React framework
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS
+- **Zustand** - State management
+- **Supabase** - Backend & Database (ready to connect)
+
+## 📦 Setup
 
 ```bash
+# Installeer dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in je browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗄️ Supabase Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Maak een Supabase project op [supabase.com](https://supabase.com)
+2. Haal API keys op (Settings → API)
+3. Maak `.env.local` bestand:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://jouw-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=jouw-anon-key
+   ```
+4. Voer SQL schema uit (zie `DEPLOYMENT.md`)
 
-## Learn More
+## 🚀 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel (aanbevolen)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push code naar GitHub (al gedaan ✅)
+2. Import project in [Vercel](https://vercel.com)
+3. Voeg environment variables toe
+4. Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Zie `DEPLOYMENT.md` voor uitgebreide instructies.
 
-## Deploy on Vercel
+## 📚 Documentatie
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `DEPLOYMENT.md` - Uitgebreide deployment & Supabase setup
+- `QUICK_START.md` - Snelle start gids
+- `GITHUB_SETUP.md` - GitHub repository setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Design
+
+- **Kleuren**: Wit (#FFFFFF), Paars accent (#8C46E0), Donkere footer (#050025)
+- **Tone**: Rustig, volwassen, praktisch
+- **Taal**: Nederlands (100%)
+
+## 📄 Licentie
+
+Private project - Alle rechten voorbehouden
