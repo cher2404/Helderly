@@ -102,14 +102,15 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (authData.user) {
         // Create profile
+        const profileData = {
+          id: authData.user.id,
+          email: authData.user.email ?? email,
+          full_name: name,
+          plan: 'free' as 'free' | 'pro' | 'together',
+        };
         const { error: profileError } = await supabase
           .from('profiles')
-          .insert({
-            id: authData.user.id,
-            email: authData.user.email ?? email,
-            full_name: name,
-            plan: 'free',
-          });
+          .insert(profileData);
 
         if (profileError) {
           console.error('Profile creation error:', profileError);
