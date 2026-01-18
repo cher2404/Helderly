@@ -111,8 +111,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           full_name: name,
           plan: 'free',
         };
-        const { error: profileError } = await supabase
-          .from('profiles')
+        const { error: profileError } = await (supabase
+          .from('profiles') as any)
           .insert(profileData);
 
         if (profileError) {
@@ -156,8 +156,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('profiles')
+      const { error } = await (supabase
+        .from('profiles') as any)
         .update(updates)
         .eq('id', user.id);
 

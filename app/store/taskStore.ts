@@ -111,8 +111,8 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     try {
       const row = taskToRow(taskData, user.id);
       
-      const { data, error } = await supabase
-        .from('tasks')
+      const { data, error } = await (supabase
+        .from('tasks') as any)
         .insert(row)
         .select()
         .single();
@@ -153,8 +153,8 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
       if (updates.tags !== undefined) row.tags = updates.tags || null;
       if (updates.estimatedMinutes !== undefined) row.estimated_minutes = updates.estimatedMinutes || null;
 
-      const { data, error } = await supabase
-        .from('tasks')
+      const { data, error } = await (supabase
+        .from('tasks') as any)
         .update(row)
         .eq('id', id)
         .eq('user_id', user.id)

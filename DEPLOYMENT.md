@@ -38,7 +38,10 @@
 Na het opzetten van Supabase, voeg deze toe in Vercel:
 - Ga naar je project in Vercel
 - Settings > Environment Variables
-- Voeg toe: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Voeg toe:
+  - `NEXT_PUBLIC_SUPABASE_URL` = `https://vnovojphzvwjuskbfjpg.supabase.co`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZub3ZvanBoenZ3anVza2JmanBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg2NzQ1NjEsImV4cCI6MjA4NDI1MDU2MX0.jTfvLlIfkEjCCk1naSxUYiqfHqHzkyw44wjxxQ383B8`
+- Selecteer alle environments (Production, Preview, Development)
 
 ### Stap 5: Deploy
 - Vercel deployt automatisch bij elke push naar main branch

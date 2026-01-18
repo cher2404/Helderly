@@ -70,8 +70,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
       const folders = data ? data.map(rowToFolder) : [];
       
       // Load user profile for plan
-      const { data: profile } = await supabase
-        .from('profiles')
+      const { data: profile } = await (supabase
+        .from('profiles') as any)
         .select('plan')
         .eq('id', user.id)
         .single();
@@ -93,8 +93,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
     if (!user) return;
 
     try {
-      await supabase
-        .from('profiles')
+      await (supabase
+        .from('profiles') as any)
         .update({ plan })
         .eq('id', user.id);
       
@@ -118,8 +118,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
     set({ isLoading: true });
     
     try {
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await (supabase
+        .from('folders') as any)
         .insert({
           user_id: user.id,
           name,
@@ -154,8 +154,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
     set({ isLoading: true });
     
     try {
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await (supabase
+        .from('folders') as any)
         .update({ is_shared: true, team_id: teamId })
         .eq('id', id)
         .eq('user_id', user.id)
@@ -185,8 +185,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
     set({ isLoading: true });
     
     try {
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await (supabase
+        .from('folders') as any)
         .update({ is_shared: false, team_id: null })
         .eq('id', id)
         .eq('user_id', user.id)
@@ -222,8 +222,8 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
       if (updates.isShared !== undefined) row.is_shared = updates.isShared;
       if (updates.teamId !== undefined) row.team_id = updates.teamId || null;
 
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await (supabase
+        .from('folders') as any)
         .update(row)
         .eq('id', id)
         .eq('user_id', user.id)
