@@ -5,6 +5,7 @@ import { useSettingsStore, type Theme } from '../../store/settingsStore';
 import { useRouter } from 'next/navigation';
 import { useTaskStore } from '../../store/taskStore';
 import { useFolderStore } from '../../store/folderStore';
+import { useAuthStore } from '../../store/authStore';
 
 export default function SettingsPage() {
   const {
@@ -295,10 +296,12 @@ export default function SettingsPage() {
               </div>
               <div className="pt-3 border-t border-gray-200 dark:border-gray-800">
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     if (confirm('Weet je zeker dat je uit wilt loggen?')) {
+                      await useAuthStore.getState().signOut();
                       localStorage.clear();
                       router.push('/login');
+                      router.refresh(); // Force page refresh to clear auth state
                     }
                   }}
                   className="w-full px-4 py-2.5 rounded-lg border border-red-300 dark:border-red-800 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"

@@ -10,7 +10,8 @@ import { useAuthStore } from '../../store/authStore';
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signUp, isLoading, user, initialize } = useAuthStore();
+  const authStore = useAuthStore();
+  const { signUp, isLoading, user, initialize } = authStore;
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -43,9 +44,34 @@ export default function SignupPage() {
     
     setSuccess(true);
     
-    // Redirect after successful signup
-    setTimeout(() => {
-      router.push('/today');
+    // Wait for auth state to be initialized before redirecting
+    // Check if user is set in store after signup
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Re-initialize to ensure session is loaded
+    await initialize();
+    
+    // Wait a bit more for the session to be available
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Check if we have a user before redirecting
+    // Use a small delay to let the auth state update
+    setTimeout(async () => {
+      const currentUser = authStore.user || useAuthStore.getState().user;
+      if (currentUser) {
+        try {
+          router.push('/today');
+          router.refresh(); // Force refresh to ensure auth state is synced
+        } catch (err) {
+          console.error('Redirect error:', err);
+          setError('Redirect mislukt. Probeer handmatig in te loggen.');
+          setSuccess(false);
+        }
+      } else {
+        // If no user (e.g., email confirmation required), show message
+        setError('Je account is aangemaakt. Check je email om te bevestigen, of probeer in te loggen.');
+        setSuccess(false);
+      }
     }, 1000);
   };
 

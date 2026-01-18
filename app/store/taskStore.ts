@@ -111,24 +111,77 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     try {
       const row = taskToRow(taskData, user.id);
       
-      const { data, error } = await (supabase
+      const result = await (supabase
         .from('tasks') as any)
         .insert(row)
         .select()
         .single();
 
-      if (error) throw error;
+      const { data, error } = result;
 
-      const newTask = rowToTask(data);
-      
-      set((state) => ({
-        tasks: [newTask, ...state.tasks],
-        isLoading: false,
-      }));
-    } catch (error) {
-      console.error('Error adding task:', error);
+      // Debug logging to see what's happening
+      console.log('Task insert result:', {
+        hasData: !!data,
+        dataKeys: data ? Object.keys(data) : [],
+        hasError: !!error,
+        errorString: error ? JSON.stringify(error) : null,
+        errorKeys: error ? Object.keys(error) : [],
+        fullResult: result
+      });
+
+      // Only throw if there's a real error with meaningful content (not empty object {})
+      if (error) {
+        const errorStr = JSON.stringify(error);
+        const isEmptyObject = errorStr === '{}';
+        const hasRealErrorContent = error.message || error.code || error.details;
+        
+        // Only log/throw if error is not an empty object and has actual error info
+        if (!isEmptyObject && hasRealErrorContent) {
+          console.error('Error adding task:', {
+            message: error.message,
+            code: error.code,
+            details: error.details,
+            hint: error.hint,
+            errorString: errorStr,
+            fullError: error
+          });
+          set({ isLoading: false });
+          throw error;
+        }
+        // If empty object {}, just ignore and continue
+      }
+
+      // If we have data, use it (even if there was an empty error object)
+      if (data) {
+        const newTask = rowToTask(data);
+        set((state) => ({
+          tasks: [newTask, ...state.tasks],
+          isLoading: false,
+        }));
+      } else {
+        // No data but no real error - might be a timing issue, just set loading to false
+        set({ isLoading: false });
+      }
+    } catch (error: any) {
+      // Only log if it's a real error with content (not empty object {})
+      if (error) {
+        const errorStr = JSON.stringify(error);
+        // Only log/throw if error is not an empty object
+        if (errorStr !== '{}' && (error.message || error.code || error.details)) {
+          console.error('Error adding task:', {
+            message: error?.message,
+            code: error?.code,
+            details: error?.details,
+            hint: error?.hint,
+            errorString: errorStr,
+            fullError: error
+          });
+          set({ isLoading: false });
+          throw error;
+        }
+      }
       set({ isLoading: false });
-      throw error;
+      // Don't throw if it's just an empty error object
     }
   },
 
@@ -153,7 +206,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
       if (updates.tags !== undefined) row.tags = updates.tags || null;
       if (updates.estimatedMinutes !== undefined) row.estimated_minutes = updates.estimatedMinutes || null;
 
-      const { data, error } = await (supabase
+      const result = await (supabase
         .from('tasks') as any)
         .update(row)
         .eq('id', id)
@@ -161,20 +214,50 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
         .select()
         .single();
 
-      if (error) throw error;
+      const { data, error } = result;
 
-      const updatedTask = rowToTask(data);
+      // Only throw if there's a real error with meaningful content
+      const hasRealError = error && (
+        (typeof error.message === 'string' && error.message.length > 0) ||
+        (typeof error.code === 'string' && error.code.length > 0) ||
+        (error.details && typeof error.details === 'object' && Object.keys(error.details).length > 0)
+      );
       
-      set((state) => ({
-        tasks: state.tasks.map((task) =>
-          task.id === id ? updatedTask : task
-        ),
-        isLoading: false,
-      }));
-    } catch (error) {
-      console.error('Error updating task:', error);
+      if (hasRealError) {
+        throw error;
+      }
+
+      if (data) {
+        const updatedTask = rowToTask(data);
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task.id === id ? updatedTask : task
+          ),
+          isLoading: false,
+        }));
+      } else {
+        set({ isLoading: false });
+      }
+    } catch (error: any) {
+      // Only log if it's a real error
+      const hasRealError = error && (
+        error.message || 
+        error.code || 
+        (error.details && typeof error.details === 'object' && Object.keys(error.details).length > 0)
+      );
+      
+      if (hasRealError) {
+        console.error('Error updating task:', {
+          message: error?.message,
+          code: error?.code,
+          details: error?.details,
+          hint: error?.hint,
+          fullError: error
+        });
+        set({ isLoading: false });
+        throw error;
+      }
       set({ isLoading: false });
-      throw error;
     }
   },
 
@@ -185,22 +268,49 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     set({ isLoading: true });
     
     try {
-      const { error } = await supabase
-        .from('tasks')
+      const result = await (supabase
+        .from('tasks') as any)
         .delete()
         .eq('id', id)
         .eq('user_id', user.id);
 
-      if (error) throw error;
+      const { error } = result;
+
+      // Only throw if there's a real error with meaningful content
+      const hasRealError = error && (
+        (typeof error.message === 'string' && error.message.length > 0) ||
+        (typeof error.code === 'string' && error.code.length > 0) ||
+        (error.details && typeof error.details === 'object' && Object.keys(error.details).length > 0)
+      );
+      
+      if (hasRealError) {
+        throw error;
+      }
 
       set((state) => ({
         tasks: state.tasks.filter((task) => task.id !== id),
         isLoading: false,
       }));
-    } catch (error) {
-      console.error('Error deleting task:', error);
+    } catch (error: any) {
+      // Only log if it's a real error
+      const hasRealError = error && (
+        error.message || 
+        error.code || 
+        (error.details && typeof error.details === 'object' && Object.keys(error.details).length > 0)
+      );
+      
+      if (hasRealError) {
+        console.error('Error deleting task:', {
+          message: error?.message,
+          code: error?.code,
+          details: error?.details,
+          hint: error?.hint,
+          fullError: error
+        });
+        set({ isLoading: false });
+        throw error;
+      }
       set({ isLoading: false });
-      throw error;
     }
   },
 

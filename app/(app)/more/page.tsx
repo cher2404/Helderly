@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTaskStore } from '../../store/taskStore';
 import { useFolderStore } from '../../store/folderStore';
+import { useAuthStore } from '../../store/authStore';
 
 interface MenuItem {
   label: string;
@@ -41,12 +42,12 @@ export default function MorePage() {
     link.click();
   };
 
-  const handleLogout = () => {
-    // TODO: Implementeer logout
+  const handleLogout = async () => {
     if (confirm('Weet je zeker dat je uit wilt loggen?')) {
-      // Clear local storage
+      await useAuthStore.getState().signOut();
       localStorage.clear();
       router.push('/login');
+      router.refresh(); // Force page refresh to clear auth state
     }
   };
 

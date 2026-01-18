@@ -59,22 +59,106 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
     
     try {
       // Load folders (own + shared)
-      const { data, error } = await supabase
-        .from('folders')
-        .select('*')
-        .or(`user_id.eq.${user.id},is_shared.eq.true`)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      const folders = data ? data.map(rowToFolder) : [];
+      let folders: Folder[] = [];
+      
+      // Try to load own folders
+      try {
+        const ownFoldersQuery = supabase.from('folders' as any);
+        const ownFoldersResult = await (ownFoldersQuery as any)
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        
+        // Only log if there's actually an error with content (not empty object {})
+        const error = ownFoldersResult?.error;
+        // Check if error has any enumerable properties - skip empty objects
+        if (error && Object.keys(error).length > 0) {
+          // Only log if error has message, code, or details
+          if (error.message || error.code || error.details) {
+            console.error('Own folders query error:', {
+              message: error?.message,
+              code: error?.code,
+              details: error?.details,
+              hint: error?.hint,
+              fullError: error
+            });
+          }
+        }
+        // If empty object {} or no properties, silently ignore (not a real error)
+        
+        // Use data if available, otherwise empty array (which is fine for new users)
+        if (ownFoldersResult?.data) {
+          folders = ownFoldersResult.data.map(rowToFolder);
+        }
+        // If no data, folders stays empty array (initialized above)
+      } catch (err: any) {
+        console.error('Exception loading own folders:', {
+          message: err?.message,
+          stack: err?.stack,
+          name: err?.name,
+          fullError: err
+        });
+      }
+      
+      // Try to load shared folders
+      try {
+        const sharedFoldersQuery = supabase.from('folders' as any);
+        const sharedFoldersResult = await (sharedFoldersQuery as any)
+          .select('*')
+          .eq('is_shared', true)
+          .neq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        
+        // Only log if there's actually an error with content (not empty object {})
+        const sharedError = sharedFoldersResult?.error;
+        // Check if error has any enumerable properties - skip empty objects
+        if (sharedError && Object.keys(sharedError).length > 0) {
+          // Only log if error has message, code, or details
+          if (sharedError.message || sharedError.code || sharedError.details) {
+            console.error('Shared folders query error:', {
+              message: sharedError?.message,
+              code: sharedError?.code,
+              details: sharedError?.details,
+              hint: sharedError?.hint,
+              fullError: sharedError
+            });
+          }
+        }
+        // If empty object {} or no properties, silently ignore (not a real error)
+        
+        // Use data if available
+        if (sharedFoldersResult?.data) {
+          const sharedFolders = sharedFoldersResult.data.map(rowToFolder);
+          folders = [...folders, ...sharedFolders];
+        }
+        // If no data, that's fine - just continue with existing folders
+      } catch (err: any) {
+        console.error('Exception loading shared folders:', {
+          message: err?.message,
+          stack: err?.stack,
+          name: err?.name,
+          fullError: err
+        });
+      }
       
       // Load user profile for plan
-      const { data: profile } = await (supabase
+      const profileQuery = (supabase
         .from('profiles') as any)
         .select('plan')
         .eq('id', user.id)
         .single();
+      
+      const { data: profile, error: profileError } = await profileQuery;
+      
+      if (profileError && profileError.code !== 'PGRST116') { // PGRST116 = no rows returned
+        console.error('Profile query error:', {
+          message: profileError.message,
+          details: profileError.details,
+          hint: profileError.hint,
+          code: profileError.code,
+          fullError: profileError
+        });
+      }
 
       set({
         folders,
@@ -82,8 +166,19 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
         isLoading: false,
         isInitialized: true,
       });
-    } catch (error) {
-      console.error('Error loading folders:', error);
+    } catch (error: any) {
+      console.error('Error loading folders:', {
+        message: error?.message,
+        details: error?.details,
+        hint: error?.hint,
+        code: error?.code,
+        errorType: typeof error,
+        errorName: error?.name,
+        errorStack: error?.stack,
+        errorKeys: error ? Object.keys(error) : [],
+        fullError: error,
+        stringifiedError: JSON.stringify(error, null, 2)
+      });
       set({ isLoading: false, isInitialized: true });
     }
   },

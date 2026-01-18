@@ -104,22 +104,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       if (authData.user) {
-        // Create profile
-        const profileData: ProfileInsert = {
-          id: authData.user.id,
-          email: authData.user.email ?? email,
-          full_name: name,
-          plan: 'free',
-        };
-        const { error: profileError } = await (supabase
-          .from('profiles') as any)
-          .insert(profileData);
-
-        if (profileError) {
-          console.error('Profile creation error:', profileError);
-          // Continue anyway, profile might already exist
-        }
-
+        // Profile is automatically created by database trigger (handle_new_user)
+        // No need to manually create it here
+        // If you need to update the full_name later, you can do it separately
+        
         set({
           user: authData.user,
           session: authData.session,
